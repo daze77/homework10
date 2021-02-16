@@ -3,12 +3,15 @@ const inquirer = require( 'inquirer' )
 
 
 class Employee {
-    constructor(eName, eID, eEmail ){
-    this.eName = eName
-    this.eID = eID
-    this.eEmail = eEmail
+    constructor(name, Id, email, role = 'Manager' ){
+    this.name = name
+    this.Id = Id
+    this.email = email
+    this.role = role
     }
 }
+
+
 
 
 module.exports = Employee;

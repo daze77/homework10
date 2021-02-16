@@ -2,47 +2,35 @@
 const Employee = require("./Employee");
 
 class Manager extends Employee{
-    constructor(eName, eID, eEmail, mOffice){
-        super(eName, eID, eEmail)
+    constructor(eName, eID, eEmail, eType = 'Manager', officeNumber){
+        super(eName, eID, eType, eEmail)
         this.mOffice = mOffice
     }
 }
 
+
 async function managerInfo() {
-    const response = await inquirer
+    const managerresponse = await inquirer
     .prompt([
-    {
-        type: 'input',
-        name: 'eName',
-        message: 'Enter the Team Managers name.',
-    },
-    {
-        type: 'input',
-        name: 'eID',
-        message: 'Please enter the Employees ID number.',
-    },
-    {
-        type: 'input',
-        name: 'eEmail',
-        message: 'Please enter the Employees email address.',
-    },
-
-    {
-        type: 'input',
-        name: 'eOffice',
-        message: 'Please enter the Employees office number.',
-    },
- 
-    {
-        type: 'list',
-        name: 'employeeType',
-        message: 'Please specify the type of employee to be established.',
-        choices: ['Engineer', 'Intern', 'No Other Employees at this time']
-    },
-
+        {
+            type: 'input',
+            name: 'mOffice',
+            message: 'Please enter the Employees office number.',
+        },
+        
+        {
+            type: 'list',
+            name: 'eType',
+            message: 'Please specify the type of employee to be established.',
+            choices: ['Engineer', 'Intern', 'No Other Employees at this time']
+        },
   ])
-  console.log( `our reponse is `, response)
-  const manager = new Manager (eName, eID, eEmail, eOffice)
-}
+  console.log( `our reponse is `, managerresponse)
+ const manager = new Manager (`${managerresponse.eName}`, `${managerresponse.eID}`, `${managerresponse.eEmail}`, `${managerresponse.mOffice}`)
+ 
+  nextQuestions(managerresponse)
+}  
+
+
 
 module.exports = Manager;

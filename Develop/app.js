@@ -15,68 +15,54 @@ const inquirer = require("inquirer");
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 
-function team (){
-    async function managerInfo() {
-        const response = await inquirer
-        .prompt([
+
+async function managersInfo() {
+    const managersInfo = await inquirer
+    .prompt([
+
+    {
+        type: 'input',
+        name: 'eName',
+        message: 'Enter the managers name.',
+    },
         {
-            type: 'input',
-            name: 'eName',
-            message: 'Enter the Team Managers name.',
-        },
-        {
-            type: 'input',
-            name: 'eID',
-            message: 'Please enter the Employees ID number.',
-        },
-        {
-            type: 'input',
-            name: 'eEmail',
-            message: 'Please enter the Employees email address.',
-        },
-    
-        {
-            type: 'input',
-            name: 'mOffice',
-            message: 'Please enter the Employees office number.',
-        },
-     
-        {
-            type: 'list',
-            name: 'employeeType',
-            message: 'Please specify the type of employee to be established.',
-            choices: ['Engineer', 'Intern', 'No Other Employees at this time']
-        },
-    
-      ])
-      console.log( `our reponse is `, response)
-      const manager = new Manager (`${response.eName}`, `${response.eID}`, `${response.eEmail}`, `${response.mOffice}`)
-      console.log(manager)
-      nextQuestions(response)
-    }  
-    managerInfo()
+        type: 'input',
+        name: 'eID',
+        message: 'Please enter the managers ID number.',
+    },
+    {
+        type: 'input',
+        name: 'eEmail',
+        message: 'Please enter the managers email address.',
+    },
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: 'Please enter the managers office number.',
+    },
+    {
+        type: 'list',
+        name: 'newEmployee',
+        message: 'Please specify the type of employee to be established under this manager.',
+        choices: ['Engineer', 'Intern', 'No Other Employees at this time']
+    }
+    ])
+    console.log( `our reponse is `, managersInfo)
+    const manager = new Manager (managersInfo.ename, managersInfo.eID, managersInfo.eEmail, managersInfo.eType = 'Manager')
+    console.log(manager)
+}  
+managersInfo()
 
 
+// function nextQuestions(response){
 
+// if(response.employeeType === 'Engineer'){
+//     console.log("Engineer Next")
+// } else if (response.employeeType === "Intern"){
+//     console.log('Intern Next')
+// } else {console.log("exit Loop")}
 
-
-}
-
-
-
-
-
-team()
-
-function nextQuestions(response){
-
-if(response.employeeType === 'Engineer'){
-    console.log("Engineer Next")
-} else if (response.employeeType === "Intern"){
-    console.log('Intern Next')
-} else {console.log("exit Loop")}
-
-}
+// }
 
 
 
