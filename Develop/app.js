@@ -1,18 +1,89 @@
 const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+// const Engineer = require("./lib/Engineer");
+// const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
+// const path = require("path");
+// const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+// const OUTPUT_DIR = path.resolve(__dirname, "output");
+// const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+// const render = require("./lib/htmlRenderer");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+
+function team (){
+    async function managerInfo() {
+        const response = await inquirer
+        .prompt([
+        {
+            type: 'input',
+            name: 'eName',
+            message: 'Enter the Team Managers name.',
+        },
+        {
+            type: 'input',
+            name: 'eID',
+            message: 'Please enter the Employees ID number.',
+        },
+        {
+            type: 'input',
+            name: 'eEmail',
+            message: 'Please enter the Employees email address.',
+        },
+    
+        {
+            type: 'input',
+            name: 'mOffice',
+            message: 'Please enter the Employees office number.',
+        },
+     
+        {
+            type: 'list',
+            name: 'employeeType',
+            message: 'Please specify the type of employee to be established.',
+            choices: ['Engineer', 'Intern', 'No Other Employees at this time']
+        },
+    
+      ])
+      console.log( `our reponse is `, response)
+      const manager = new Manager (`${response.eName}`, `${response.eID}`, `${response.eEmail}`, `${response.mOffice}`)
+      console.log(manager)
+      nextQuestions(response)
+    }  
+    managerInfo()
+
+
+
+
+
+}
+
+
+
+
+
+team()
+
+function nextQuestions(response){
+
+if(response.employeeType === 'Engineer'){
+    console.log("Engineer Next")
+} else if (response.employeeType === "Intern"){
+    console.log('Intern Next')
+} else {console.log("exit Loop")}
+
+}
+
+
+
+
+
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
