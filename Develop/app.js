@@ -52,12 +52,8 @@ async function team() {
     const manager = new Manager (managersInfo.name, managersInfo.id, managersInfo.email, managersInfo.officeNumber, managersInfo.role)
     console.log(manager)
 
-    const nextEmployee = managersInfo.newEmployee
-  
-    if (nextEmployee === 'No Other Employees at this time'){
-        console.log('Process ended')
-        process.exit
-    }else {
+    let nextEmployee = managersInfo.newEmployee
+    while (nextEmployee !== 'No Other Employees at this time'){
         const employeeInfo = await inquirer
         .prompt([
             {
@@ -85,48 +81,29 @@ async function team() {
                 }`,
                 message: `Please enter the ${nextEmployee} ${nextEmployee === 'Engineer'? 'Github': 'School'
                     } name`
-            },  
-
+            },
             {
                 type: 'list',
                 name: 'newEmployee',
                 message: 'Please specify the type of employee to be established under this manager.',
                 choices: ['Engineer', 'Intern', 'No Other Employees at this time']
-            },
+            }  
+            
         ])
-    
+        nextEmployee = employeeInfo.newEmployee
+        console.log("Done that one")
+        console.log(nextEmployee)
+        
+
     }
+
+
+
+}
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-}  
 team()
-
-
-// function nextQuestions(response){
-
-// if(response.employeeType === 'Engineer'){
-//     console.log("Engineer Next")
-// } else if (response.employeeType === "Intern"){
-//     console.log('Intern Next')
-// } else {console.log("exit Loop")}
-
-// }
-
-
-
-
 
 
 
