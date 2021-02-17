@@ -1,14 +1,15 @@
 const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const path = require("path");
-// const fs = require("fs");
+const path = require("path");
+const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./lib/htmlRenderer");
+const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -16,23 +17,23 @@ const inquirer = require("inquirer");
 
 
 
-async function managersInfo() {
+async function team() {
     const managersInfo = await inquirer
     .prompt([
 
     {
         type: 'input',
-        name: 'eName',
+        name: 'name',
         message: 'Enter the managers name.',
     },
         {
         type: 'input',
-        name: 'eID',
+        name: 'id',
         message: 'Please enter the managers ID number.',
     },
     {
         type: 'input',
-        name: 'eEmail',
+        name: 'email',
         message: 'Please enter the managers email address.',
     },
     {
@@ -48,10 +49,69 @@ async function managersInfo() {
     }
     ])
     console.log( `our reponse is `, managersInfo)
-    const manager = new Manager (managersInfo.ename, managersInfo.eID, managersInfo.eEmail, managersInfo.eType = 'Manager')
+    const manager = new Manager (managersInfo.name, managersInfo.id, managersInfo.email, managersInfo.officeNumber, managersInfo.role)
     console.log(manager)
+
+    const nextEmployee = managersInfo.newEmployee
+  
+    if (nextEmployee === 'No Other Employees at this time'){
+        console.log('Process ended')
+        process.exit
+    }else {
+        const employeeInfo = await inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: `Enter the ${nextEmployee} name.`,
+            },
+                {
+                type: 'input',
+                name: 'id',
+                message: `Please enter the ${nextEmployee} ID number.`,
+            },
+            {
+                type: 'input',
+                name: 'email',
+                message: `Please enter the ${nextEmployee} email address.`,
+            },
+
+            {
+                type: 'input',
+                name: `if (${nextEmployee} === 'Engineer'){
+                    'details',
+                } else {
+                    'school'
+                }`,
+                message: `Please enter the ${nextEmployee} ${nextEmployee === 'Engineer'? 'Github': 'School'
+                    } name`
+            },  
+
+            {
+                type: 'list',
+                name: 'newEmployee',
+                message: 'Please specify the type of employee to be established under this manager.',
+                choices: ['Engineer', 'Intern', 'No Other Employees at this time']
+            },
+        ])
+    
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 }  
-managersInfo()
+team()
 
 
 // function nextQuestions(response){
