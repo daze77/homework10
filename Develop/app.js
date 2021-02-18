@@ -14,9 +14,11 @@ const Employee = require("./lib/Employee");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+// employee list array to be compiled here
 let employeeList =[]
 
-
+// start the function to prompt for manager information
 async function team() {
     const managersInfo = await inquirer
     .prompt([
@@ -48,17 +50,22 @@ async function team() {
         choices: ['Engineer', 'Intern', 'No Other Employees at this time']
     }
     ])
+    // this will show us what we inputed at the prompts
     console.log( `our reponse is `, managersInfo)
+
+    // put that information into tha new manager item
     const manager = new Manager (managersInfo.name, managersInfo.id, managersInfo.email, managersInfo.officeNumber, managersInfo.role)
+    
+    // to show us in console what we will store for manager
     console.log(manager)
 
+    // push the new manager into the employee list
     employeeList.push(manager)
-    
-    
 
-
+    // set this nextEmployee based on what was selected in the last question from the first set of promts - this will determine how we move forward
     let nextEmployee = managersInfo.newEmployee
 
+    // if we didn't select 'no other employees at this time - we ask additional questions to obtain the other employees information
     while (nextEmployee !== 'No Other Employees at this time'){
         const employeeInfo = await inquirer
         .prompt([
@@ -79,15 +86,18 @@ async function team() {
             },
 
             {
+                // we used ternary operation here to shorten the code and change this question based on if the employee we are adding is an Engineer or Intern
                 type: 'input',
                 name: `${nextEmployee === 'Engineer'? 'github': 'school'}`,
                 message: `Please enter the ${nextEmployee} ${nextEmployee === 'Engineer'? 'Github': 'School'
                     } name`
             },          
         ])
+        // console log to confirm we completed the second set of questions and for which employee 
         console.log("we just completed", nextEmployee)
         console.log("Done that one")
 
+        // save the employee based on type as there is different information depending on type
         if (nextEmployee === 'Engineer'){
             const engineer = new Engineer (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.github, employeeInfo.role)
             console.log(engineer)
@@ -97,11 +107,8 @@ async function team() {
             console.log(intern)
             employeeList.push(intern)
         }
-
-        // const employee = new Employee (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.role, employeeInfo.details)
-
-        // console.log(engineer)
-        
+       
+        // confirm if there is another employee to add - if so we loop through the second round of quesitons again else we pop out of the loop
         const nemployeeInfo = await inquirer
         .prompt([
             {
@@ -117,7 +124,7 @@ async function team() {
     
 
 
-
+    // Pull the information and send to directory if it exists or else create it with information
     if( !fs.existsSync(OUTPUT_DIR) ) fs.mkdirSync(OUTPUT_DIR)
     fs.writeFileSync(outputPath, render(employeeList), "utf-8");
 
@@ -128,28 +135,3 @@ async function team() {
 }
 team()
 
-
-
-
-
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
