@@ -27,6 +27,8 @@ async function team() {
         type: 'input',
         name: 'name',
         message: 'Enter the managers name.',
+        validate: function validatename(name){
+            return name !== '';}
     },
         {
         type: 'input',
