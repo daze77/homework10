@@ -14,7 +14,7 @@ const Employee = require("./lib/Employee");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
+let employeeList =[]
 
 
 async function team() {
@@ -52,6 +52,11 @@ async function team() {
     const manager = new Manager (managersInfo.name, managersInfo.id, managersInfo.email, managersInfo.officeNumber, managersInfo.role)
     console.log(manager)
 
+    employeeList.push(manager)
+    
+    
+
+
     let nextEmployee = managersInfo.newEmployee
 
     while (nextEmployee !== 'No Other Employees at this time'){
@@ -83,15 +88,14 @@ async function team() {
         console.log("we just completed", nextEmployee)
         console.log("Done that one")
 
-
-
-        
         if (nextEmployee === 'Engineer'){
             const engineer = new Engineer (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.github, employeeInfo.role)
             console.log(engineer)
+            employeeList.push(engineer)
         } else {
             const intern = new Intern (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.school, employeeInfo.role)
             console.log(intern)
+            employeeList.push(intern)
         }
 
         // const employee = new Employee (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.role, employeeInfo.details)
@@ -110,14 +114,21 @@ async function team() {
         ])
         nextEmployee = nemployeeInfo.newEmployee
     }
-
-
-
-}
     
 
 
+
+    if( !fs.existsSync(OUTPUT_DIR) ) fs.mkdirSync(OUTPUT_DIR)
+    fs.writeFileSync(outputPath, render(employeeList), "utf-8");
+
+    console.log( `Completed writing to: ${outputPath}` )
+
+
+ 
+}
 team()
+
+
 
 
 
@@ -125,6 +136,7 @@ team()
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
