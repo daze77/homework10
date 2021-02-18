@@ -53,6 +53,7 @@ async function team() {
     console.log(manager)
 
     let nextEmployee = managersInfo.newEmployee
+
     while (nextEmployee !== 'No Other Employees at this time'){
         const employeeInfo = await inquirer
         .prompt([
@@ -74,14 +75,31 @@ async function team() {
 
             {
                 type: 'input',
-                name: `if (${nextEmployee} === 'Engineer'){
-                    'details',
-                } else {
-                    'school'
-                }`,
+                name: `${nextEmployee === 'Engineer'? 'github': 'school'}`,
                 message: `Please enter the ${nextEmployee} ${nextEmployee === 'Engineer'? 'Github': 'School'
                     } name`
-            },
+            },          
+        ])
+        console.log("we just completed", nextEmployee)
+        console.log("Done that one")
+
+
+
+        
+        if (nextEmployee === 'Engineer'){
+            const engineer = new Engineer (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.github, employeeInfo.role)
+            console.log(engineer)
+        } else {
+            const intern = new Intern (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.school, employeeInfo.role)
+            console.log(intern)
+        }
+
+        // const employee = new Employee (employeeInfo.name, employeeInfo.id, employeeInfo.email, employeeInfo.role, employeeInfo.details)
+
+        // console.log(engineer)
+        
+        const nemployeeInfo = await inquirer
+        .prompt([
             {
                 type: 'list',
                 name: 'newEmployee',
@@ -90,11 +108,7 @@ async function team() {
             }  
             
         ])
-        nextEmployee = employeeInfo.newEmployee
-        console.log("Done that one")
-        console.log(nextEmployee)
-        
-
+        nextEmployee = nemployeeInfo.newEmployee
     }
 
 
